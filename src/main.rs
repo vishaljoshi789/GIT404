@@ -23,7 +23,7 @@ fn main() {
 
     match cli.command{
         Commands::Init => {
-            utils::mygit_init();
+            utils::init();
         },
         Commands::ReadBlob {blob} => {
             utils::read_blob(blob);
