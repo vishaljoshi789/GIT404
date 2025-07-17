@@ -28,7 +28,7 @@
 Clone the repository and build the binary:
 
 ```bash
-git clone https://github.com/yourusername/git404.git
+git clone https://github.com/vishaljoshi789/git404.git
 cd git404
 cargo build --release
 ```
@@ -62,23 +62,7 @@ This will create a `.git404` directory in your current folder, similar to how Gi
 
 ## 🧠 Motivation
 
-The goal of `git404` is not to replace Git, but to **learn how Git actually works internally** by rebuilding it from scratch using Rust. This is a great project for:
-
-- Learning low-level file and content manipulation
-- Understanding Git’s object model (blobs, trees, commits)
-- Exploring CLI design with `clap` and idiomatic Rust
-
----
-
-## 📅 Roadmap
-
-- [x] `init` command
-- [ ] `hash-object`
-- [ ] `cat-file`
-- [ ] `add`
-- [ ] `commit`
-- [ ] `log`
-- [ ] Branching and checkout
+The goal of `git404` is to **learn how Git actually works internally** by rebuilding its basic features from scratch using Rust.
 
 ---
 
@@ -88,16 +72,9 @@ Feel free to fork this project, suggest improvements, or open issues. Contributi
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
 ## ✨ Acknowledgements
 
-- Inspired by [Git from the Bottom Up](https://jwiegley.github.io/git-from-the-bottom-up/)
-- Built using [Rust](https://www.rust-lang.org/) and [Clap](https://docs.rs/clap/)
+- Inspired by [CodeCrafters](https://codecrafters.io/)
 
 ---
 
