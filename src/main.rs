@@ -13,6 +13,9 @@ struct CLI {
 #[derive(Subcommand)]
 enum Commands{
     Init,
+    ReadBlob{
+        blob: String
+    }
 }
 
 fn main() {
@@ -21,6 +24,9 @@ fn main() {
     match cli.command{
         Commands::Init => {
             utils::mygit_init();
+        },
+        Commands::ReadBlob {blob} => {
+            utils::read_blob(blob);
         }
     }
     
