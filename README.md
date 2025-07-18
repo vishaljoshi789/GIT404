@@ -12,6 +12,7 @@
 - 📂 Object storage using Git-like `.git/objects`
 - 🧠 SHA-1 based content-addressed storage
 - 🗂️ Simple file snapshotting
+- 🧱 Mimics Git's plumbing commands
 - ⚙️ Expandable command architecture using Clap
 
 ---
@@ -64,6 +65,15 @@ This will create a `.git404` directory in your current folder, similar to how Gi
 
 The goal of `git404` is to **learn how Git actually works internally** by rebuilding its basic features from scratch using Rust.
 
+This project takes direct inspiration from Git’s **plumbing commands** like:
+
+- `git hash-object`
+- `git cat-file`
+- `git write-tree`
+- `git commit-tree`
+
+These are the low-level building blocks of Git. `git404` attempts to recreate their behaviors to teach how Git stores and links objects internally.
+
 ---
 
 ## 🙌 Contributing
@@ -75,6 +85,7 @@ Feel free to fork this project, suggest improvements, or open issues. Contributi
 ## ✨ Acknowledgements
 
 - Inspired by [CodeCrafters](https://codecrafters.io/)
+- Based on Git’s plumbing model and internals
 
 ---
 
