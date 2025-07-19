@@ -19,7 +19,7 @@ pub fn read_blob(blob: String){
     // println!("{:?}", output)
 
 
-    let path:String = format!(".git/objects/{}/{}", &blob[..2], &blob[2..]);
+    let path:String = format!(".git404/objects/{}/{}", &blob[..2], &blob[2..]);
     let contents = fs::read(path)
         .expect("Invalid");
     let mut output = ZlibDecoder::new(contents.as_slice());
@@ -51,10 +51,11 @@ pub fn write_blob(path: String){
     let compressed = compresser.finish().unwrap();
     println!("{:?}", compressed);
 
-    let folder_path = format!(".git404/objects/{first_part_hash}/{rest_hash}");
-    let save_file = File::create(folder_path).unwrap();
+    fs::create_dir(format!(".git404/objects/{first_part_hash}/")).expect("Error creating directory.");
+    let file_path = format!(".git404/objects/{first_part_hash}/{rest_hash}");
+    let save_file = File::create(file_path).expect("Failed to create directory.");
     let mut writer = BufWriter::new(save_file);
-    writer.write(&compressed).unwrap();
+    writer.write(&compressed).expect("Failed to write blob object.");
     writer.flush().unwrap();
 
 }
