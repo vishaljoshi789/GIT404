@@ -15,7 +15,11 @@ enum Commands{
     Init,
     ReadBlob{
         blob: String
+    },
+    WriteBlob{
+        path: String
     }
+
 }
 
 fn main() {
@@ -27,6 +31,9 @@ fn main() {
         },
         Commands::ReadBlob {blob} => {
             utils::read_blob(blob);
+        }
+        Commands::WriteBlob { path } => {
+            utils::write_blob(path);
         }
     }
     
