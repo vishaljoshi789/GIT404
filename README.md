@@ -1,6 +1,6 @@
 # git404 — A Lightweight Git Implementation in Rust 🚀
 
-`git404` is a custom-built version control system inspired by Git, written entirely in Rust. It aims to provide a deeper understanding of how Git works under the hood by replicating core functionalities like initializing repositories, committing changes, and managing objects.
+`git404` is a custom-built version control system inspired by Git, written entirely in Rust. It aims to provide a deeper understanding of how Git works under the hood by replicating core functionalities like initializing repositories, committing changes, and managing objects — without relying on Git’s plumbing commands.
 
 > ⚙️ Built with performance, learning, and extensibility in mind.
 
@@ -8,12 +8,15 @@
 
 ## 📦 Features
 
-- 🔧 `init` — Initialize a new repository
-- 📂 Object storage using Git-like `.git/objects`
-- 🧠 SHA-1 based content-addressed storage
-- 🗂️ Simple file snapshotting
-- 🧱 Mimics Git's plumbing commands
-- ⚙️ Expandable command architecture using Clap
+- 🔧 `init` — Initialize a new repository (`.git404/`)
+- 📄 `write-blob` — Store file content as SHA-1 blob
+- 📖 `read-blob` — Read and decode stored blob content
+- 🌲 `read-tree` — Reconstruct tree object to visualize project structure
+- 📝 `write-tree` — (Coming Soon) Save file structure as tree object
+- 🧱 `write-commit` — (Planned) Create commit objects linking trees and parents
+- 🔐 SHA-1 based content-addressed storage
+- 📂 Git-like object storage in `.git404/objects`
+- 🛠️ Modular architecture using `clap`
 
 ---
 
@@ -22,7 +25,7 @@
 ### Prerequisites
 
 - [Rust](https://www.rust-lang.org/tools/install)
-- Git (for comparing behaviors)
+- Git (optional — for comparing behaviors)
 
 ### Installation
 
@@ -44,7 +47,25 @@ To initialize a new repository using `git404`:
 ./target/release/git404 init
 ```
 
-This will create a `.git404` directory in your current folder, similar to how Git sets up `.git`.
+To write a blob from a file:
+
+```bash
+./target/release/git404 write-blob <file_path>
+```
+
+To read a blob by its hash:
+
+```bash
+./target/release/git404 read-blob <hash>
+```
+
+To read a tree object:
+
+```bash
+./target/release/git404 read-tree <tree_hash>
+```
+
+> 📌 More commands like `write-tree` and `write-commit` will be available soon!
 
 ---
 
@@ -54,7 +75,11 @@ This will create a `.git404` directory in your current folder, similar to how Gi
 .
 ├── src/
 │   ├── main.rs          # CLI entry point
-│   └── utils.rs         # Core logic for init and future Git commands
+│   ├── commands/        # Modular command handlers
+│   │   ├── init.rs
+│   │   ├── blob.rs
+│   │   ├── tree.rs
+│   └── utils.rs         # Shared logic (SHA-1, file IO)
 ├── Cargo.toml           # Rust package config
 └── README.md
 ```
@@ -63,16 +88,9 @@ This will create a `.git404` directory in your current folder, similar to how Gi
 
 ## 🧠 Motivation
 
-The goal of `git404` is to **learn how Git actually works internally** by rebuilding its basic features from scratch using Rust.
+The goal of `git404` is to **learn how Git actually works internally** by rebuilding its basic features from scratch using Rust — but instead of calling Git’s own plumbing commands, everything is implemented manually to replicate the behavior.
 
-This project takes direct inspiration from Git’s **plumbing commands** like:
-
-- `git hash-object`
-- `git cat-file`
-- `git write-tree`
-- `git commit-tree`
-
-These are the low-level building blocks of Git. `git404` attempts to recreate their behaviors to teach how Git stores and links objects internally.
+This project attempts to teach how Git stores and links objects internally — from hashing blobs to creating commits and managing trees — all while writing your own logic.
 
 ---
 
@@ -85,12 +103,10 @@ Feel free to fork this project, suggest improvements, or open issues. Contributi
 ## ✨ Acknowledgements
 
 - Inspired by [CodeCrafters](https://codecrafters.io/)
-- Based on Git’s plumbing model and internals
+- Based on Git’s internal data model and low-level architecture
 
 ---
 
 ### 🚧 Note
 
-This is a work-in-progress. Expect bugs, missing features, and frequent changes.
-
----
+This is a work-in-progress. Expect bugs, missing features, and frequent changes as more commands are implemented.
