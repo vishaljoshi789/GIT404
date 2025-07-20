@@ -19,14 +19,14 @@ pub fn read_blob(blob: String){
     // println!("{:?}", output)
 
 
-    let path:String = format!(".git404/objects/{}/{}", &blob[..2], &blob[2..]);
+    let path:String = format!(".git/objects/{}/{}", &blob[..2], &blob[2..]);
     let contents = fs::read(path)
         .expect("Invalid");
     let mut output = ZlibDecoder::new(contents.as_slice());
     let mut s = String::new();
     let _ = output.read_to_string(& mut s);
 
-    let (_, result_part) = s.split_at(8);
+    let result_part =  s.split('\0').next_back().expect("Error in split!");
     println!("{}", result_part);
 }
 
@@ -58,4 +58,36 @@ pub fn write_blob(path: String){
     writer.write(&compressed).expect("Failed to write blob object.");
     writer.flush().unwrap();
 
+}
+
+pub fn read_tree(hash: String){
+    let file = fs::read(format!(".git/objects/{}/{}", &hash[..2], &hash[2..])).expect("Error occured while reading the file!");
+
+    let mut decoded = ZlibDecoder::new(file.as_slice());
+
+    let mut output = Vec::new();
+    let _ = decoded.read_to_end(& mut output);
+
+    let null_index = output.iter().position(|&b| b == 0).unwrap();
+    let tree_data = &output[null_index + 1..];
+
+    let mut i = 0;
+
+    while i < tree_data.len() {
+        let mode_end = tree_data[i..].iter().position(|&b| b == b' ').unwrap() + i;
+        let mode = std::str::from_utf8(&tree_data[i..mode_end]).unwrap();
+
+        let name_start = mode_end + 1;
+        let name_end = tree_data[name_start..].iter().position(|&b| b == 0).unwrap() + name_start;
+        let filename = std::str::from_utf8(&tree_data[name_start..name_end]).unwrap();
+
+        let sha_start = name_end + 1;
+        let sha_end = sha_start + 20;
+        let sha = &tree_data[sha_start..sha_end];
+        let sha_hex = sha.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+
+        println!("{:<7} {:<20} {}", mode, filename, sha_hex);
+
+        i = sha_end;
+    }
 }

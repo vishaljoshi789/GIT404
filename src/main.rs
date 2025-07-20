@@ -18,8 +18,10 @@ enum Commands{
     },
     WriteBlob{
         path: String
+    },
+    ReadTree{
+        hash: String
     }
-
 }
 
 fn main() {
@@ -34,6 +36,9 @@ fn main() {
         }
         Commands::WriteBlob { path } => {
             utils::write_blob(path);
+        }
+        Commands::ReadTree { hash } => {
+            utils::read_tree(hash);
         }
     }
     
